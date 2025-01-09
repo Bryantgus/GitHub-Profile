@@ -114,7 +114,17 @@ h1 {
     color: #CDD5E0;
     font-weight: 400;
     margin-top: 10px;
+    margin-bottom: 30px;
 }
 
+.repositories {
+    width: 100%;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto auto auto auto;
+    row-gap: 20px;
+    column-gap: 60px;
+    
 
-
+}

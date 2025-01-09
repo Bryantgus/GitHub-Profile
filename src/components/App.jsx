@@ -20,7 +20,6 @@ export default function App() {
 
     return (
         <div className="appContainer">
-            
             <div className="header">
                 <div className="searchContainer">
                     <input type="text" placeholder="username" />
@@ -48,13 +47,41 @@ export default function App() {
                 
                 <div className="repositories">
                     <Repositories
-                    title={".github"} c
-                    content={"aklsdalkvsjldbnfjlsdfklsdfklnaklfn"}
+                    title={".github"} 
+                    content={"asdsa"}
+                    nest={2440}
+                    star={400}
+                    update={"3 days ago"}
                     />
+                    <Repositories
+                    title={".github"} 
+                    content={"asdsa"}
+                    nest={2440}
+                    star={400}
+                    update={"3 days ago"}
+                    />
+                    <Repositories
+                    title={".github"} 
+                    content={"asdsa"}
+                    nest={2440}
+                    star={400}
+                    update={"3 days ago"}
+                    />
+                    <Repositories
+                    title={".github"} 
+                    content={"asdsa"}
+                    nest={2440}
+                    star={400}
+                    update={"3 days ago"}
+                    />
+ 
+                     
+                    
+                    
 
                 </div>
                     
-                </div>
+            </div>
                     
                 
         </div>

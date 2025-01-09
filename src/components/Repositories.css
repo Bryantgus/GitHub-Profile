@@ -1,0 +1,37 @@
+.repository {
+    display: grid;
+    grid-row: auto auto auto;
+    width: 500px; /* Cambia el tamaño según lo necesario */
+    height: 120px; /* Cambia el tamaño según lo necesario */
+    background-image: linear-gradient(to right, #111729, #1D1B48);
+    border-radius: 10px;   
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.title > span {
+    color: #CDD5E0;
+    font-size: 19px; 
+}
+
+.content > span {
+    color: #97A3B6;
+    word-wrap: break-word;
+    display: block;
+    white-space: normal;
+}
+
+.moreInfo {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    padding-bottom: 10px;
+}
+.moreInfo > span {
+    color: #97A3B6;
+}
+
+.moreInfo > span:last-child {
+    font-size: 10px;
+    padding-left: 10px;
+}
