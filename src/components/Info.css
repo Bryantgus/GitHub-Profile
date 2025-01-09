@@ -1,0 +1,21 @@
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #111729;
+    color: #CDD5E0;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 65px;
+}
+
+.line {
+    width: 1px;
+    height: 30px;
+    background-color: #97A3B6;
+}
+
+.info  > span {
+    border: 15px solid #111729;
+    border-radius: 50%;
+}

@@ -1,6 +1,8 @@
 import "./App.css"
 import { useState, useEffect } from "react"
 import gitData from "../../public/gitData.json"
+import Info from "./Info";
+import Repositories from "./Repositories";
 
 export default function App() {
     
@@ -18,27 +20,43 @@ export default function App() {
 
     return (
         <div className="appContainer">
+            
             <div className="header">
                 <div className="searchContainer">
                     <input type="text" placeholder="username" />
                     <div className="search">
                         <div className="profileImg"
                              style={{backgroundImage: `url(${gitData.avatar_url})`}}></div>
+                        
                         <div className="name"><span>{gitData.login}</span></div>
                         <div className="bio"><span>{gitData.bio}</span></div>
                     </div>
-
-                    <div className="InfoContainer">
-                        <div className="mainData">
-                            <div className="infoProfileImg"></div>
-                            {/* <Info left={"Followers"}} right={`{}`}/>
-                            <Info left={} right={}/>
-                            <Info left={} right={}/> */}
-                        </div>
-                        
-                    </div>
                 </div>
             </div>
+
+            <div className="InfoContainer">
+                <div className="mainData">
+                    <div className="infoProfileImg" 
+                         style={{backgroundImage: `url(${gitData.avatar_url})`}}></div>
+                    <Info left={"Followers"} right={1232131}/>
+                    <Info left={"Following"} right={12330}/>
+                    <Info left={"Location"} right={"Usa"}/>
+                </div>
+
+                <h1>{gitData.login}</h1>
+                <p>{gitData.bio}</p>
+                
+                <div className="repositories">
+                    <Repositories
+                    title={".github"} c
+                    content={"aklsdalkvsjldbnfjlsdfklsdfklnaklfn"}
+                    />
+
+                </div>
+                    
+                </div>
+                    
+                
         </div>
     )
 }
