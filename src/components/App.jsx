@@ -16,38 +16,41 @@ export default function App() {
             fetch(`https://api.github.com/users/${profile}`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.message == "Not Found"){
+                    if (data.message === "Not Found") {
                         setUserData({
                             login: "Username Not Found",
-                            avatar_url: "/github-mark.png"
-                            
-                    })
+                            avatar_url: "/github-mark.png",
+                            bio: "",
+                            followers: 0,
+                            following: 0,
+                            repositories: [],
+                        });
                     } else {
-                        fetch(data.followers_url)
-                          .then(response => response.json())
-                          .then(followers => { 
-                              setUserData({
-                                  login: data.login,
-                                  avatar_url: data.avatar_url,
-                                  bio: data.bio,
-                                  followers: followers.length,
-
-                                })
-                          })
+                        // Realiza la segunda solicitud para los repositorios
+                        fetch(data.repos_url)
+                            .then(response => response.json())
+                            .then(repositories => {
+                                setUserData({
+                                    login: data.login,
+                                    avatar_url: data.avatar_url,
+                                    bio: data.bio || "No bio available",
+                                    followers: data.followers.toString(2),
+                                    following: data.following.toString(2),
+                                    location: data.location || "No Available",
+                                    repositories: repositories,
+                                });
+                                // console.log(userData.repositories);
+                                
+                            })
+                            .catch(error =>
+                                console.error("Error fetching repositories:", error)
+                            );
                     }
                 })
-            
-                .catch(error => {
-                    console.log("Error fetching data:", error);
-                });
+                .catch(error => console.error("Error fetching user data:", error));
         }
     }, [profile]);
-
-    // const apiRequest = ((link) => {
-    //     fetch(link)
-    //       .then(response => response.json())
-    //       .then(data => data)
-    // })
+    
 
 
     return (
@@ -83,20 +86,26 @@ export default function App() {
                          style={{backgroundImage: `url(${updatePage.avatar_url})`}}></div>
                     <Info left={"Followers"} right={updatePage.followers}/>
                     <Info left={"Following"} right={updatePage.following}/>
-                    <Info left={"Location"} right={"Usa"}/>
+                    <Info left={"Location"} right={updatePage.location}/>
                 </div>
 
                 <h1>{updatePage.login}</h1>
                 <p>{updatePage.bio}</p>
                 
                 <div className="repositories">
-                    <Repositories
-                    title={".github"} 
-                    content={"asdsa"}
-                    nest={'2440'}
-                    star={400}
-                    update={"3 days ago"}
-                    />
+                    {/* {updatePage[repositories].map((item, index) => {
+                        return (
+                            <Repositories
+                                key={index}
+                                title={".github"} 
+                                content={"asdsa"}
+                                nest={'2440'}
+                                star={400}
+                                update={"3 days ago"}
+                            />
+                        )
+                    })} */}
+                    
                 </div>
 
                 <label className="extend">View all repositories</label>
