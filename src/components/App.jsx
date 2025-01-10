@@ -6,23 +6,34 @@ import Repositories from "./Repositories";
 
 export default function App() {
     
-
+    const [profile, setProfile] = useState("");
+    const [userData, setUserData] = useState({});
     useEffect(() => {
-        fetch(gitData.followers_url)
-            .then(response => response.json())
-            .then(data => {
-              console.log(data.length)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }, []);
+        if (profile !== "") {
+            fetch("https://api.github.com/users/NVIDIA")
+              .then(response => response.json())
+              .then(data => {
+                setUserData(data)
+                console.log(userData);
+                
+              })
+              .catch(error => {
+                console.log(error)
+              })
+        }
+    }, [profile, userData]);
+
 
     return (
         <div className="appContainer">
             <div className="header">
                 <div className="searchContainer">
-                    <input type="text" placeholder="username" />
+                    <input 
+                    type="text" 
+                    placeholder="username" 
+                    value={profile}
+                    onChange={(e) => setProfile(e.target.value)} />
+                   
                     <div className="search">
                         <div className="profileImg"
                              style={{backgroundImage: `url(${gitData.avatar_url})`}}></div>
@@ -37,8 +48,8 @@ export default function App() {
                 <div className="mainData">
                     <div className="infoProfileImg" 
                          style={{backgroundImage: `url(${gitData.avatar_url})`}}></div>
-                    <Info left={"Followers"} right={1232131}/>
-                    <Info left={"Following"} right={12330}/>
+                    <Info left={"Followers"} right={"1232131"}/>
+                    <Info left={"Following"} right={"12330"}/>
                     <Info left={"Location"} right={"Usa"}/>
                 </div>
 
@@ -74,12 +85,9 @@ export default function App() {
                     star={400}
                     update={"3 days ago"}
                     />
- 
-                     
-                    
-                    
-
                 </div>
+
+                <label className="extend">View all repositories</label>
                     
             </div>
                     
