@@ -1,8 +1,8 @@
 .repository {
     display: grid;
-    grid-row: auto auto auto;
+    grid-template-rows: auto auto auto;
     width: 500px; /* Cambia el tamaño según lo necesario */
-    height: 120px; /* Cambia el tamaño según lo necesario */
+    height: auto; /* Cambia el tamaño según lo necesario */
     background-image: linear-gradient(to right, #111729, #1D1B48);
     border-radius: 10px;   
     padding-left: 20px;
@@ -13,12 +13,16 @@
     color: #CDD5E0;
     font-size: 19px; 
 }
-
-.content > span {
+.content {
+    width: 490px;
+    height: 90%;
+}
+.content > p {
     color: #97A3B6;
-    word-wrap: break-word;
-    display: block;
-    white-space: normal;
+    word-wrap: break-word; /* Permite dividir palabras largas */
+    white-space: normal; /* Permite saltos de línea automáticos */
+    overflow-wrap: break-word; /* Asegura que las palabras largas se dividan si es necesario */
+    display: block; /* Asegura que el span ocupe todo el ancho disponible */
 }
 
 .moreInfo {
