@@ -6,7 +6,24 @@ import Repositories from "./Repositories";
 export default function App() {
     
     const [profile, setProfile] = useState("");
-    const [userData, setUserData] = useState({});
+    const [userData, setUserData] = useState({
+        login: '',
+        avatar_url: '',
+        bio: '',
+        followers: '',
+        following: '',
+        repositories: [
+            {
+                name: '',
+                description: '',
+                license: '',
+                branches: '',
+                stars: '',
+                updated: '',
+
+            }
+        ]
+    });
     const [updatePage, setUpdatePage] = useState({
         avatar_url: "/github-mark.png",
     });
@@ -36,34 +53,39 @@ export default function App() {
                             location: profileData.location || "No Available",
                         }));
                         fetch(profileData.repos_url)
-                          .then(response => response.json())
-                          .then(repositories => {
-                            repositories.map((item) => {
-                                setUserData((prev) => ({
-                                ...prev,
-                                ...prev.repositories,
-                                repositories: {
-                                    index: {
-                                        name: repositories.name,
-                                        description: repositories.description,
-                                        star: repositories.stargazers_count,
-                                        license: false,
-                                    }
-                                    
-                                }    
-                            }))
-                            if (repositories.license.key) {
-                                if(repositories.license.key === "mit")
-                                    setUserData((prev) => ({
-                                    ...prev,
-                                    repositories: {
-                                        ...prev.repositories,
-                                        license: true,
-                                }   }));
+                        .then(response => response.json())
+                        .then(repositories => {
+                          const filteredRepositories = repositories.map(item => {
+                            
+                            var isMit = false;
+                            if (item.license !== null) {
+                                if (item.license.key === "mit") {
+                                    isMit = true
+                                }
                             }
 
-                        });
+                            return {
+                            name: item.name,
+                            description: item.description,
+                            star: item.stargazers_count,
+                            license: isMit
+                            }
+                          });
+                      
+
+                          setUserData(prev => ({
+                            ...prev,
+                            repositories: [...filteredRepositories],
+                          }));
                         })
+
+
+
+
+
+                        .catch(error => console.error("Error fetching repositories:", error));
+
+                        
                     }
                       
                 })
@@ -75,7 +97,7 @@ export default function App() {
 
     return (
         <div className="appContainer">
-            <input type="text" onClick={() => console.log(userData)
+            <button type="text" onClick={() => console.log(userData)
             } />
             <div className="header">
                 <div className="searchContainer">
@@ -115,7 +137,7 @@ export default function App() {
                 <p>{updatePage.bio}</p>
                 
                 <div className="repositories">
-                    {updatePage[repositories].map((item, index) => {
+                    {/* {updatePage.map((item, index) => {
                         return (
                             <Repositories
                                 key={index}
@@ -126,7 +148,7 @@ export default function App() {
                                 update={"3 days ago"}
                             />
                         )
-                    })}
+                    })} */}
                     
                 </div>
 
