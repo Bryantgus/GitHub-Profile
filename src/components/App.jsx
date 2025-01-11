@@ -12,11 +12,12 @@ export default function App() {
     });
 
     useEffect(() => {
+
         if (profile !== "") {
             fetch(`https://api.github.com/users/${profile}`)
                 .then(response => response.json())
-                .then(data => {
-                    if (data.message === "Not Found") {
+                .then(profileData => {
+                    if (profileData.message === "Not Found") {
                         setUserData({
                             login: "Username Not Found",
                             avatar_url: "/github-mark.png",
@@ -26,26 +27,45 @@ export default function App() {
                             repositories: [],
                         });
                     } else {
-                        // Realiza la segunda solicitud para los repositorios
-                        fetch(data.repos_url)
-                            .then(response => response.json())
-                            .then(repositories => {
-                                setUserData({
-                                    login: data.login,
-                                    avatar_url: data.avatar_url,
-                                    bio: data.bio || "No bio available",
-                                    followers: data.followers.toString(2),
-                                    following: data.following.toString(2),
-                                    location: data.location || "No Available",
-                                    repositories: repositories,
-                                });
-                                // console.log(userData.repositories);
-                                
-                            })
-                            .catch(error =>
-                                console.error("Error fetching repositories:", error)
-                            );
+                        setUserData(() => ({
+                            login: profileData.login,
+                            avatar_url: profileData.avatar_url,
+                            bio: profileData.bio || "No bio available",
+                            followers: profileData.followers.toString(2),
+                            following: profileData.following.toString(2),
+                            location: profileData.location || "No Available",
+                        }));
+                        fetch(profileData.repos_url)
+                          .then(response => response.json())
+                          .then(repositories => {
+                            repositories.map((item) => {
+                                setUserData((prev) => ({
+                                ...prev,
+                                ...prev.repositories,
+                                repositories: {
+                                    index: {
+                                        name: repositories.name,
+                                        description: repositories.description,
+                                        star: repositories.stargazers_count,
+                                        license: false,
+                                    }
+                                    
+                                }    
+                            }))
+                            if (repositories.license.key) {
+                                if(repositories.license.key === "mit")
+                                    setUserData((prev) => ({
+                                    ...prev,
+                                    repositories: {
+                                        ...prev.repositories,
+                                        license: true,
+                                }   }));
+                            }
+
+                        });
+                        })
                     }
+                      
                 })
                 .catch(error => console.error("Error fetching user data:", error));
         }
@@ -55,6 +75,8 @@ export default function App() {
 
     return (
         <div className="appContainer">
+            <input type="text" onClick={() => console.log(userData)
+            } />
             <div className="header">
                 <div className="searchContainer">
                     <input 
@@ -93,18 +115,18 @@ export default function App() {
                 <p>{updatePage.bio}</p>
                 
                 <div className="repositories">
-                    {/* {updatePage[repositories].map((item, index) => {
+                    {updatePage[repositories].map((item, index) => {
                         return (
                             <Repositories
                                 key={index}
-                                title={".github"} 
-                                content={"asdsa"}
+                                title={item.name} 
+                                content={item.description}
                                 nest={'2440'}
                                 star={400}
                                 update={"3 days ago"}
                             />
                         )
-                    })} */}
+                    })}
                     
                 </div>
 
